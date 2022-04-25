@@ -6,6 +6,7 @@ import com.fileupload.TestUpload.repo.FileStorageRepo;
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -60,6 +61,7 @@ public class FileStorageService {
     public List<FileStorage> findAll() {
         return repo.findAll();
     }
+
     private String getExt(String path) {
         String ext = null;
         if (path != null && !path.isEmpty()) {
@@ -72,7 +74,16 @@ public class FileStorageService {
     }
 
 
+    @Transactional(readOnly = true)
     public FileStorage findByHash(String hashId) {
         return repo.findByHashId(hashId);
+    }
+
+    public void removeByFileStorage(String hashId) {
+        FileStorage fileStorage = repo.findByHashId(hashId);
+        File file = new File(String.format("%s/%s", this.fileUploadPath, fileStorage.getUploadPath()));
+        if (file.delete()) {
+            repo.delete(fileStorage);
+        }
     }
 }

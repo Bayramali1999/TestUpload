@@ -37,5 +37,17 @@ public class FileStorageRest {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "inline; fileName=\"" + URLEncoder.encode(hashId)).contentType(MediaType.parseMediaType(fileStorage.getContentType())).contentLength(fileStorage.getSize()).body(new FileUrlResource(String.format("%s/%s", uploadPath, fileStorage.getUploadPath())));
     }
 
+    @GetMapping("download/{hashId}")
+    private ResponseEntity downloadFile(@PathVariable("hashId") String hashId) throws MalformedURLException {
+        FileStorage fileStorage = storageService.findByHash(hashId);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=\"" + URLEncoder.encode(hashId)).contentType(MediaType.parseMediaType(fileStorage.getContentType())).contentLength(fileStorage.getSize()).body(new FileUrlResource(String.format("%s/%s", uploadPath, fileStorage.getUploadPath())));
+    }
+
+    @DeleteMapping("delete/{hashId}")
+    private ResponseEntity deleteFile(@PathVariable("hashId") String hashId) throws MalformedURLException {
+        storageService.removeByFileStorage(hashId);
+        return ResponseEntity.ok("FIle o'chirildi");
+    }
+
 
 }
