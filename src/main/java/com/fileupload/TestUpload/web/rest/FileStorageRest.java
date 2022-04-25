@@ -31,6 +31,11 @@ public class FileStorageRest {
         return ResponseEntity.ok("File " + multipartFile.getOriginalFilename() + " yuklandi");
     }
 
+    @GetMapping("all")
+    private ResponseEntity getAll() {
+        return ResponseEntity.ok(storageService.findAll());
+    }
+
     @GetMapping("preview/{hashId}")
     private ResponseEntity previewFile(@PathVariable("hashId") String hashId) throws MalformedURLException {
         FileStorage fileStorage = storageService.findByHash(hashId);
