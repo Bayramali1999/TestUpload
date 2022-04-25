@@ -1,0 +1,17 @@
+{
+    "ip": "149.154.161.1",
+    "registry": "RIPE",
+    "countrycode": "AG",
+    "countryname": "Antigua and Barbuda",
+    "asn": {
+        "code": "62041",
+        "name": "Telegram",
+        "route": "149.154.160.0/22",
+        "start": "149.154.160.0",
+        "end": "149.154.163.255",
+        "count": "1024"
+    },
+    "detail": "Telegram Messenger Network",
+    "spam": false,
+    "tor": false
+}
